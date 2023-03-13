@@ -5,6 +5,7 @@ import com.ph.mdc.application.instrument.model.Instrument
 import com.ph.mdc.application.instrument.model.InstrumentCandle
 import com.ph.mdc.application.instrument.model.Quote
 import com.ph.mdc.application.instrument.repository.InstrumentRepository
+import com.ph.mdc.bus.QuoteEventEmitter
 import com.ph.mdc.messaging.model.MessagingProperties
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Service
@@ -20,6 +21,7 @@ class InstrumentService(
     private val rabbitTemplate: RabbitTemplate,
     private val messagingProperties: MessagingProperties,
     private val objectMapper: ObjectMapper,
+    private val quoteEventEmitter: QuoteEventEmitter
 ) {
 
     fun save(instrument: Instrument): Mono<Instrument> {
@@ -70,5 +72,13 @@ class InstrumentService(
                 )
             }
             .switchIfEmpty { throw RuntimeException("Instrument not found with isin $isin") }
+    }
+
+    fun livePrices(isin: String): Flux<Quote> {
+        return quoteEventEmitter
+            .stream()
+            .filter { quote ->
+                quote.isin == isin
+            }
     }
 }
