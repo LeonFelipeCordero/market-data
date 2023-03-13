@@ -11,4 +11,5 @@ class MessagingProperties {
     var deleteIsinTopic = ""
     var quoteTopic = ""
     var quoteCapturedTopic = ""
+    var alertFilledTopic = ""
 }

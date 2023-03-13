@@ -37,3 +37,9 @@ As well the system have an internal bus created with spring webflux to handle su
 and the main core.
 
 ![architecture](./architecture.png)
+
+- Connector: it allows the system to have a back pressure by just converting and filtering events and publish them in
+the bus
+- RabbitMQ: It has several topics inside by event type, and it has one queue to one each topic
+- The three types of events are process by separate components.
+- Some components create new events that are send back into the bus

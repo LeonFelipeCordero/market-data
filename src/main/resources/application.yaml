@@ -13,6 +13,7 @@ messaging:
     deleteIsinTopic: "delete.isin"
     quoteTopic: "quote.isin"
     quoteCapturedTopic: "quote.isin.captured"
+    alertFilledTopic: "alert.isin.filled"
 
 spring:
   data:

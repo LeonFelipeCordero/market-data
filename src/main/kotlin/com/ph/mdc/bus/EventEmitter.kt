@@ -1,6 +1,5 @@
 package com.ph.mdc.bus
 
-import com.ph.mdc.application.alert.model.Alert
 import com.ph.mdc.application.instrument.model.Quote
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Flux
@@ -20,19 +19,6 @@ class QuoteEventEmitter : EventEmitter<Quote> {
     }
 
     override fun stream(): Flux<Quote> {
-        return sink.asFlux()
-    }
-}
-
-@Component
-class AlertEventEmitter : EventEmitter<Alert> {
-    private val sink = Sinks.many().multicast().onBackpressureBuffer<Alert>()
-
-    override fun publish(event: Alert) {
-        sink.tryEmitNext(event)
-    }
-
-    override fun stream(): Flux<Alert> {
         return sink.asFlux()
     }
 }
