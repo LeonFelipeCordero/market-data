@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+exchange:
+  url: "ws://localhost:8080"
+  instruments: "/instruments"
+  quotes: "/quotes"
+
+messaging:
+  exchange:
+    name: "market.data"
+    addIsinTopic: "add.isin"
+    deleteIsinTopic: "delete.isin"
+    quoteTopic: "quote.isin"
+    quoteCapturedTopic: "quote.isin.captured"
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/market_data
+      database: market_data
+  rabbitmq:
+    username: market_data
+    password: 12345

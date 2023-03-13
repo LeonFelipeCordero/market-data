@@ -1,0 +1,42 @@
+version: '3.8'
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  mongodb_data_container:
+  rabbitmq:
+    driver: local
+
+services:
+  rabbitmq:
+    image: 'bitnami/rabbitmq:latest'
+    networks:
+      - app
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_PASSWORD=secret
+    volumes:
+      - 'rabbitmq:/bitnami'
+
+  mongo:
+    image: mongo:latest
+    networks:
+      - app
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+
+  partner-api:
+    image: partner-api:latest
+    networks:
+      - app
+    restart: always
+    ports:
+      - "8080:8080"
+
